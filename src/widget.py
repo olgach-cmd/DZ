@@ -11,10 +11,13 @@ def mask_account_card(num_account_card: str) -> str:
     Visa Platinum 7000 79** **** 6361 или Счет **4305
     """
     splits_num_account_card = num_account_card.split()
-    if splits_num_account_card[0] == "Счет":
+    if splits_num_account_card[0] == "Счет" and len(splits_num_account_card) == 2 and splits_num_account_card[
+        -1].isdigit():
         splits_num_account_card[-1] = masks.get_mask_account(splits_num_account_card[-1])
-    else:
+    elif len(splits_num_account_card) <= 3 and splits_num_account_card[-1].isdigit():
         splits_num_account_card[-1] = masks.get_mask_card_number(splits_num_account_card[-1])
+    else:
+        return "Некорректный ввод номера"
     return " ".join(splits_num_account_card)
 
 
@@ -27,3 +30,4 @@ def get_date(date: str) -> str:
      ("11.03.2024").
     """
     return f"{date[8:10]}.{date[5:7]}.{date[:4]}"
+
