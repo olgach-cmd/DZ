@@ -1,4 +1,4 @@
-def get_mask_card_number(card_number: str | int) -> "str | int":
+def get_mask_card_number(card_number: str | int) -> "str":
     """
     Функция маскировки номера банковской карты
     если номер = 16 символов возвращает маску
@@ -8,10 +8,10 @@ def get_mask_card_number(card_number: str | int) -> "str | int":
     if len(card_number_str) == 16:
         return card_number_str[:4] + " " + card_number_str[5:7] + "** **** " + card_number_str[-4:]
     else:
-        return card_number
+        return card_number_str
 
 
-def get_mask_account(account_number: str | int) -> "str | int":
+def get_mask_account(account_number: str | int) -> "str":
     """
     Функция маскировки номера банковского счета
     если номер ≥4 символов возвращает маску
@@ -21,4 +21,4 @@ def get_mask_account(account_number: str | int) -> "str | int":
     if len(account_number_str) >= 4:
         return "**" + account_number_str[-4:]
     else:
-        return account_number
+        return account_number_str

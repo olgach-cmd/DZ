@@ -1,5 +1,6 @@
 import masks
 
+
 def mask_account_card(num_account_card: str) -> str:
     """
     Принимает на вход строку тип и номер карты или счета в формате
@@ -26,4 +27,3 @@ def get_date(date: str) -> str:
      ("11.03.2024").
     """
     return f"{date[8:10]}.{date[5:7]}.{date[:4]}"
-
