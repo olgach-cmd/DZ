@@ -1,4 +1,5 @@
 import masks
+from datetime import datetime
 
 
 def mask_account_card(num_account_card: str) -> str:
@@ -29,5 +30,5 @@ def get_date(date: str) -> str:
     "ДД.ММ.ГГГГ"
      ("11.03.2024").
     """
-    return f"{date[8:10]}.{date[5:7]}.{date[:4]}"
-
+    dt = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%f")
+    return dt.strftime("%d.%m.%Y")
