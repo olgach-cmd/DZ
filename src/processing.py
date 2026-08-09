@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 def filter_by_state(processes: list[dict], state: str='EXECUTED') -> list[dict]:
     """
     Принимает список словарей и опционально значение для ключа state
@@ -13,5 +16,11 @@ def filter_by_state(processes: list[dict], state: str='EXECUTED') -> list[dict]:
     return result
 
 
-def sort_by_date():
-    pass
+def sort_by_date(processes: list[dict], reverse: bool=True) -> list[dict]:
+    """
+    Принимает список словарей и необязательный параметр reverse, задающий порядок сортировки.
+    При reverse = True сортирует по убыванию (по умолчанию),
+    при reverse = False - сортировка по возрастанию.
+    Функция возвращает новый список, отсортированный по дате (date).
+    """
+    return sorted(processes,key = lambda x: datetime.fromisoformat(x['date']), reverse=reverse)
