@@ -38,5 +38,5 @@ def get_date(date: str) -> str:
     "ДД.ММ.ГГГГ"
      ("11.03.2024").
     """
-    dt = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%f")
+    dt = datetime.fromisoformat(date)
     return dt.strftime("%d.%m.%Y")
