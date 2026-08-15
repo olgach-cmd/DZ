@@ -45,8 +45,12 @@ def test_get_date(date, expected):
 
 @pytest.fixture
 def incorrect_date_format():
-    return "2024-03-11 02:26:18"
+    return "2024-03-56T02:26:18.671407"
 
 def test_get_date_incorrect_format(incorrect_date_format):
     with pytest.raises(ValueError) as exc_info:
         get_date(incorrect_date_format)
+
+def test_get_date_no_date():
+    with pytest.raises(ValueError) as exc_info:
+        get_date("")
