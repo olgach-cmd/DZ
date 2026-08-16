@@ -35,11 +35,6 @@ def test_mask_account_card_err(err_number):
         mask_account_card(err_number)
 
 
-# @pytest.fixture
-# def date():
-#     return "2019-07-03T18:35:29.512364"
-
-
 @pytest.mark.parametrize(
     "date, expected",
     [
