@@ -1,6 +1,6 @@
 from datetime import datetime
 
-import masks
+import src.masks as masks
 
 
 def mask_account_card(num_account_card: str) -> str:
@@ -21,11 +21,11 @@ def mask_account_card(num_account_card: str) -> str:
     ):
         splits_num_account_card[-1] = masks.get_mask_account(splits_num_account_card[-1])
 
-    elif len(splits_num_account_card) <= 3 and splits_num_account_card[-1].isdigit():
+    elif 1 < len(splits_num_account_card) <= 3 and splits_num_account_card[-1].isdigit():
         splits_num_account_card[-1] = masks.get_mask_card_number(splits_num_account_card[-1])
 
     else:
-        return "Некорректный ввод номера"
+        raise ValueError("Некорректный ввод номера")
 
     return " ".join(splits_num_account_card)
 
@@ -38,5 +38,5 @@ def get_date(date: str) -> str:
     "ДД.ММ.ГГГГ"
      ("11.03.2024").
     """
-    dt = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%f")
+    dt = datetime.fromisoformat(date)
     return dt.strftime("%d.%m.%Y")
