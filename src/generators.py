@@ -11,14 +11,14 @@ def filter_by_currency(transactions: list[dict], code: str) -> Generator[dict, N
         if transaction["operationAmount"]["currency"]["code"] == code:
             yield transaction
 
-#
-# def transaction_descriptions():
-#     """
-#     Генераторная функция, принимает на вход список словарей, представляющих транзакции,
-#     и возвращает описание каждой операции по очереди (например, "Перевод организации")
-#     """
-#     pass
-#
+
+def transaction_descriptions(transactions: list[dict]) -> Generator[dict, None, None]:
+    """
+    Генераторная функция, принимает на вход список словарей, представляющих транзакции,
+    и возвращает описание каждой операции по очереди (например, "Перевод организации")
+    """
+    for transaction in transactions:
+        yield transaction["description"]
 #
 # def card_number_generator():
 #     """
