@@ -146,25 +146,16 @@ def test_card_number_generator():
     assert next(generator, "stop") == "stop"
 
 
-def test_card_number_generator_err_start():
+@pytest.mark.parametrize(
+    "start, stop",
+    [
+        (-4, 3),
+        (4, 3),
+        (689, 55468921563489639),
+        (55468921563489635, 55468921563489639),
+    ],
+)
+def test_card_number_generator_err(start, stop):
     with pytest.raises(ValueError) as exc_info:
-        generator = card_number_generator(55468921563489635, 55468921563489639)
-        next(generator)
-
-
-def test_card_number_generator_low_start():
-    with pytest.raises(ValueError) as exc_info:
-        generator = card_number_generator(-4, 3)
-        next(generator)
-
-
-def test_card_number_generator_err_stop():
-    with pytest.raises(ValueError) as exc_info:
-        generator = card_number_generator(4, 3)
-        next(generator)
-
-
-def test_card_number_generator_big_stop():
-    with pytest.raises(ValueError) as exc_info:
-        generator = card_number_generator(689, 55468921563489639)
+        generator = card_number_generator(start, stop)
         next(generator)
