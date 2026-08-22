@@ -213,3 +213,9 @@ def test_card_number_generator_err_stop():
     with pytest.raises(ValueError) as exc_info:
         generator = card_number_generator(4, 3)
         next(generator)
+
+
+def test_card_number_generator_big_stop():
+    with pytest.raises(ValueError) as exc_info:
+        generator = card_number_generator(689, 55468921563489639)
+        next(generator)
