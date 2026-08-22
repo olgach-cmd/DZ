@@ -1,6 +1,6 @@
 import pytest
 
-from src.generators import filter_by_currency, transaction_descriptions#, card_number_generator
+from src.generators import filter_by_currency, transaction_descriptions, card_number_generator
 
 @pytest.fixture
 def transactions():
@@ -189,3 +189,27 @@ def test_transaction_descriptions(transactions):
 def test_transaction_descriptions_list_none():
     assert next(transaction_descriptions([]),"stop") == "stop"
 
+##### Тесты card_number_generator
+
+def test_card_number_generator():
+    generator = card_number_generator(57656572, 57656575)
+    assert next(generator, "stop") == "0000 0000 5765 6572"
+    assert next(generator, "stop") == "0000 0000 5765 6573"
+    assert next(generator, "stop") == "0000 0000 5765 6574"
+    assert next(generator, "stop") == "0000 0000 5765 6575"
+    assert next(generator, "stop") == "stop"
+
+def test_card_number_generator_err_start():
+    with pytest.raises(ValueError) as exc_info:
+        generator = card_number_generator(55468921563489635, 55468921563489639)
+        next(generator)
+
+def test_card_number_generator_low_start():
+    with pytest.raises(ValueError) as exc_info:
+        generator = card_number_generator(-4, 3)
+        next(generator)
+
+def test_card_number_generator_err_stop():
+    with pytest.raises(ValueError) as exc_info:
+        generator = card_number_generator(4, 3)
+        next(generator)
