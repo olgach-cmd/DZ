@@ -9,6 +9,6 @@ def list_transactions_from_file(file_path: str) -> list[dict]:
         with open(file_path, 'r', encoding="utf-8") as file:
             data = json.load(file)
         return data
-    except json.decoder.JSONDecodeError:
+    except (json.decoder.JSONDecodeError, FileNotFoundError):
         return []
 
