@@ -1,4 +1,3 @@
-import pytest
 from src.utils import list_transactions_from_file
 
 
@@ -13,6 +12,7 @@ def test_list_transactions_from_file_clear():
 
 def test_list_transactions_from_file_no_json():
     assert list_transactions_from_file(r"data\operations_no_json.json") == []
+
 
 def test_list_transactions_from_file_no_file():
     assert list_transactions_from_file(r"data\operations_.json") == []
