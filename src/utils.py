@@ -1,11 +1,10 @@
 import json
-
 import logging
 
 logger = logging.getLogger("utils")
 logger.setLevel(logging.DEBUG)
-file_handler = logging.FileHandler('logs/utils.log', mode='w', encoding='utf-8')
-file_formatter = logging.Formatter('%(asctime)s %(name)s %(funcName)s: %(levelname)s: %(message)s')
+file_handler = logging.FileHandler("logs/utils.log", mode="w", encoding="utf-8")
+file_formatter = logging.Formatter("%(asctime)s %(name)s %(funcName)s: %(levelname)s: %(message)s")
 logger.addHandler(file_handler)
 file_handler.setFormatter(file_formatter)
 
@@ -19,7 +18,7 @@ def list_transactions_from_file(file_path: str) -> list[dict]:
     try:
         with open(file_path, "r", encoding="utf-8") as file:
             data = json.load(file)
-        logger.info(f"Данные о транзакциях успешно сохранены")
+        logger.info("Данные о транзакциях успешно сохранены")
         return data
     except (json.decoder.JSONDecodeError, FileNotFoundError) as ex:
         logger.exception(f"Произошла ошибка {ex}")

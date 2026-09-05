@@ -2,11 +2,10 @@ import logging
 
 logger = logging.getLogger("masks")
 logger.setLevel(logging.DEBUG)
-file_handler = logging.FileHandler('logs/masks.log', mode='w', encoding='utf-8')
-file_formatter = logging.Formatter('%(asctime)s %(name)s %(funcName)s: %(levelname)s: %(message)s')
+file_handler = logging.FileHandler("logs/masks.log", mode="w", encoding="utf-8")
+file_formatter = logging.Formatter("%(asctime)s %(name)s %(funcName)s: %(levelname)s: %(message)s")
 logger.addHandler(file_handler)
 file_handler.setFormatter(file_formatter)
-
 
 
 def get_mask_card_number(card_number: str | int) -> "str":
@@ -18,10 +17,9 @@ def get_mask_card_number(card_number: str | int) -> "str":
     logger.info(f"Начало маскировки номера карты с номером {card_number}")
     card_number_str = str(card_number)
     if not card_number_str.isdigit():
-        logger.error(f"Номер карты содержит нецифровые символы")
+        logger.error("Номер карты содержит нецифровые символы")
         raise ValueError("номер карты должен состоять из цифр")
     elif len(card_number_str) == 16:
-        logger.info(f"")
         mask = card_number_str[:4] + " " + card_number_str[4:6] + "** **** " + card_number_str[-4:]
         logger.info(f"Номер карты успешно замаскирован {mask}")
         return mask
@@ -39,7 +37,7 @@ def get_mask_account(account_number: str | int) -> "str":
     logger.info(f"Начало маскировки номера счета с номером {account_number}")
     account_number_str = str(account_number)
     if not account_number_str.isdigit():
-        logger.error(f"Номер  содержит нецифровые символы")
+        logger.error("Номер  содержит нецифровые символы")
         raise ValueError("номер счета должен состоять из цифр")
     elif len(account_number_str) >= 4:
         mask = "**" + account_number_str[-4:]
