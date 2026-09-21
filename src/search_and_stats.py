@@ -9,13 +9,19 @@ def process_bank_search(data:list[dict], search:str)->list[dict]:
     try:
         res = [transaction for transaction in data if re.search(search, str(transaction.get("description")), flags = re.IGNORECASE)]
         return res
-    except AttributeError:
+    except AttributeError,TypeError:
         return[]
 
 
-def rocess_bank_operations(data:list[dict], categories:list)->dict:
+def process_bank_operations(data:list[dict], categories:list)->dict:
     """
     Функция принимает список словарей с данными о банковских операциях и список категорий операций ("description"),
     возвращать словарь, в котором ключи — это названия категорий,
     а значения — это количество операций в каждой категории.
     """
+    # try:
+    result = {}
+    for category in categories:
+        result[category] = len(process_bank_search(data, category))
+    return result
+    # except

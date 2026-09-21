@@ -1,6 +1,6 @@
 import pytest
 
-from src.search_and_stats import process_bank_search
+from src.search_and_stats import process_bank_search, process_bank_operations
 
 
 @pytest.fixture
@@ -26,13 +26,41 @@ def transactions():
 },
 ]
 
+
+@pytest.fixture
+def categories():
+    return ["Открытие вклада", "Перевод со счета на счет", "Перевод организации"]
+
+
 # тесты process_bank_search
 def test_process_bank_search(transactions):
     assert process_bank_search(transactions, "перевод") == transactions
     assert process_bank_search(transactions, "Организации") == [transactions[1]]
 
-def test_process_bank_search_no_list_dic():
-    assert process_bank_search([], "перевод") == []
-    assert process_bank_search([1,2,3], "перевод") == []
-    assert process_bank_search({1:"1", 2:"2", 3:"3"}, "перевод") == []
+@pytest.mark.parametrize("transactions_no_list_dic, expected",
+    [
+    ([], []),
+    ([1,2,3], []),
+    ({1:"1", 2:"2", 3:"3"}, [])
+    ],
+     )
+def test_process_bank_search_no_list_dic(transactions_no_list_dic, expected):
+    assert process_bank_search(transactions_no_list_dic, "перевод") == expected
 
+
+@pytest.mark.parametrize("no_str_search, expected",
+    [
+    ([], []),
+    ([1,2,3], []),
+    ({1:"1", 2:"2", 3:"3"}, [])
+    ],
+     )
+def test_process_bank_search_no_str_search(transactions,no_str_search, expected):
+    assert process_bank_search(transactions, no_str_search) == expected
+
+
+# тесты process_bank_operations
+def test_process_bank_operations(list_transactions, categories):
+    assert process_bank_operations(list_transactions, categories) == {"Открытие вклада" : 10,
+                                                               "Перевод со счета на счет" : 15,
+                                                               "Перевод организации" : 40}
