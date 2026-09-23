@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 
@@ -9,6 +10,7 @@ def parse_csv_file(file_path: str, sep: str = ";") -> list[dict]:
     """
     try:
         transactions_df = pd.read_csv(file_path, sep=sep, encoding="utf-8")
+        transactions_df = transactions_df.replace({np.nan: None})
         transactions_df["id"] = transactions_df["id"].astype("Int64")
         transactions_dic = transactions_df.to_dict(orient="records")
 
@@ -27,6 +29,7 @@ def parse_xlsx_file(file_path: str) -> list[dict]:
     """
     try:
         transactions_df = pd.read_excel(file_path)
+        transactions_df = transactions_df.replace({np.nan: None})
         transactions_df["id"] = transactions_df["id"].astype("Int64")
         transactions_dic = transactions_df.to_dict(orient="records")
         return transactions_dic
