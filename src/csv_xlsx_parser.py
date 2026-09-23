@@ -1,5 +1,6 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
+
 
 def parse_csv_file(file_path: str, sep: str = ";") -> list[dict]:
     """

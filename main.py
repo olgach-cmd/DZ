@@ -1,8 +1,9 @@
+from src.csv_xlsx_parser import parse_csv_file, parse_xlsx_file
 from src.processing import sort_by_date
 from src.search_and_stats import process_bank_search
 from src.utils import list_transactions_from_file
-from src.csv_xlsx_parser import parse_csv_file, parse_xlsx_file
 from src.widget import get_date, mask_account_card
+
 
 def main():
     # сбор данных
@@ -35,12 +36,12 @@ def main():
         """).upper()
 
         if operation_status in ["EXECUTED", "CANCELED", "PENDING"]:
-            transactions_inform = [transaction for transaction in transactions_inform if
-                                        transaction.get("state") == operation_status]
+            transactions_inform = [
+                transaction for transaction in transactions_inform if transaction.get("state") == operation_status
+            ]
             break
         else:
             print(f'Статус операции "{operation_status}" недоступен.')
-
 
     while True:
         sort_date = input("Отсортировать операции по дате? Да/Нет\n").lower()
@@ -56,28 +57,31 @@ def main():
                     transactions_inform = sort_by_date(transactions_inform, reverse=reverse)
                     break
                 else:
-                    print(f"Некорректный ввод.\n")
+                    print("Некорректный ввод.\n")
             break
         elif sort_date == "нет":
             break
         else:
-            print(f"Некорректный ввод.\n")
-
+            print("Некорректный ввод.\n")
 
     while True:
         sort_rub = input("Выводить только рублевые транзакции? Да/Нет\n").lower()
         if sort_rub == "да":
             if type_format_file == "1":
-                transactions_inform = [transaction for transaction in transactions_inform if
-                                       transaction["operationAmount"]["currency"]["code"] == "RUB"]
+                transactions_inform = [
+                    transaction
+                    for transaction in transactions_inform
+                    if transaction["operationAmount"]["currency"]["code"] == "RUB"
+                ]
             else:
-                transactions_inform = [transaction for transaction in transactions_inform if
-                                       transaction.get("currency_code") == "RUB"]
+                transactions_inform = [
+                    transaction for transaction in transactions_inform if transaction.get("currency_code") == "RUB"
+                ]
             break
         elif sort_rub == "нет":
             break
         else:
-            print(f"Некорректный ввод.\n")
+            print("Некорректный ввод.\n")
 
     while True:
         sort_description = input("Отфильтровать список транзакций по определенному слову в описании? Да/Нет\n").lower()
@@ -88,9 +92,7 @@ def main():
         elif sort_description == "нет":
             break
         else:
-            print(f"Некорректный ввод.\n")
-
-
+            print("Некорректный ввод.\n")
 
     if not transactions_inform:
         print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
@@ -98,9 +100,10 @@ def main():
         print("Распечатываю итоговый список транзакций...")
         print(f"Всего банковских операций в выборке: {len(transactions_inform)}")
         for transaction in transactions_inform:
-            # transaction_date = get_date(transaction.get("date"))
             if type_format_file == "1":
-                transaction_amount = f"{transaction["operationAmount"]["amount"]} {transaction["operationAmount"]["currency"]["name"]}"
+                transaction_amount = (
+                    f"{transaction["operationAmount"]["amount"]} {transaction["operationAmount"]["currency"]["name"]}"
+                )
             else:
                 transaction_amount = f"{transaction["amount"]} {transaction["currency_name"]}"
 
@@ -108,13 +111,13 @@ def main():
                 print(f"""
 {get_date(transaction.get("date"))} {transaction.get("description")}
 {mask_account_card(transaction.get("from"))} ->  {mask_account_card(transaction.get("to"))}
-Сумма: {transaction_amount}                
+Сумма: {transaction_amount}
                 """)
             else:
                 print(f"""
 {get_date(transaction.get("date"))} {transaction.get("description")}
 {mask_account_card(transaction.get("to"))}
-Сумма: {transaction_amount}                
+Сумма: {transaction_amount}
                 """)
 
 
